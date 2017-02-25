@@ -74,7 +74,9 @@ bits2(X) when is_integer(X), X > 0 ->
 
 bits(0, A) -> A;
 bits(X, A) ->
-    bits(X bsr 1, A + (X band 1)).
+    bits(X band (X - 1), A + 1). % X band (X - 1) removes leftmost one
+%    bits(X bsr 1, A + (X band 1)). % bit shift and bit masking solution
+%    bits(X div 2, A + (X rem 2)). % dividing by 2 works as shift
 
 length({X1, Y1}, {X2, Y2}) ->
     DX = X2 - X1,
