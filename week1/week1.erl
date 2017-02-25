@@ -2,7 +2,7 @@
 
 % Shapes
 
--export([area/1, perimeneter/1, enclose/1]).
+-export([area/1, perimeter/1, enclose/1]).
 
 % Bits
 
@@ -37,12 +37,12 @@ area({triangle, A, B, C}) ->
     S = (LA + LB + LC)/2,
     math:sqrt(S * (S - LA) * (S - LB) * (S - LC)).
 
--spec perimeneter(Shape :: shape()) -> number().
-perimeneter({circle, {_X, _Y}, R}) ->
+-spec perimeter(Shape :: shape()) -> number().
+perimeter({circle, {_X, _Y}, R}) ->
     2 * math:pi() * R;
-perimeneter({rectangle, {_X, _Y}, H, W}) ->
+perimeter({rectangle, {_X, _Y}, H, W}) ->
     2 * (H + W);
-perimeneter({triangle, A, B, C}) ->
+perimeter({triangle, A, B, C}) ->
     length(A, B) + length(B, C) + length(A, C).
 
 -spec enclose(Shape :: shape()) -> rectangle().
@@ -103,7 +103,7 @@ test() ->
       {rectangle,{2.0,1.0},2.0,3.0},
       {rectangle,{2.0,1.0},2.0,2.0}]] =
     [ [ ?MODULE:F(X) || X <- [C, R, T] ]
-      || F <- [area, perimeneter, enclose] ],
+      || F <- [area, perimeter, enclose] ],
 
     1 = bits(8),
     3 = bits(7),
