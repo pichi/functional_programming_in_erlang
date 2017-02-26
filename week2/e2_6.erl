@@ -35,5 +35,6 @@ prod_direct([]) -> 1;
 prod_direct([H|T]) ->
     H * prod_direct(T).
 
+max_direct([H]) -> H;
 max_direct([H|T]) ->
     max(H, max_direct(T)).
