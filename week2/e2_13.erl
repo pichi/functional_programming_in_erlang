@@ -2,6 +2,8 @@
 
 -export([nub/1, tail_nub/1]).
 
+-export([nub_nomap/1]).
+
 nub(L) ->
     nub(L, #{}).
 
@@ -32,3 +34,12 @@ tail_nub([H|T], M, Acc) ->
 %        true  -> tail_nub(T, M, Acc);
 %        false -> tail_nub(T, maps:put(H, [], M), [H|Acc])
 %    end.
+
+% O(N*logM) version without using map (M is number of unique values)
+nub_nomap(L) ->
+    [X ||
+     {_, X} <- lists:sort(
+                 lists:ukeysort(
+                   2, lists:zip(
+                        lists:seq(1, length(L)),
+                        L)))].
