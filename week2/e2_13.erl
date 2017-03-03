@@ -2,8 +2,6 @@
 
 -export([nub/1, tail_nub/1]).
 
-% M#{H=>[]} may not work in older releases than R19
-% use maps:put(H, [], M) instead
 nub(L) ->
     nub(L, #{}).
 
@@ -13,6 +11,11 @@ nub([H|T], M) ->
         #{H:=_} -> nub(T, M);
         _ -> [H|nub(T, M#{H=>[]})]
     end.
+% Pre R19 version
+%    case maps:is_key(H, M) of
+%        true  -> nub(T, M);
+%        false -> [H|nub(T, maps:put(H, [], M))]
+%    end.
 
 % performance of both seems same in memory and speed
 tail_nub(L) ->
@@ -24,3 +27,8 @@ tail_nub([H|T], M, Acc) ->
         #{H:=_} -> tail_nub(T, M, Acc);
         _ -> tail_nub(T, M#{H=>[]}, [H|Acc])
     end.
+% Pre R19 version
+%    case maps:is_key(H, M) of
+%        true  -> tail_nub(T, M, Acc);
+%        false -> tail_nub(T, maps:put(H, [], M), [H|Acc])
+%    end.
