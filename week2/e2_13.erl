@@ -2,7 +2,7 @@
 
 -export([nub/1, tail_nub/1]).
 
--export([nub_nomap/1]).
+-export([nub_nomap/1, nub_simple/1, bun/1]).
 
 nub(L) ->
     nub(L, #{}).
@@ -43,3 +43,23 @@ nub_nomap(L) ->
                    2, lists:zip(
                         lists:seq(1, length(L)),
                         L)))].
+
+% O(N*M)
+nub_simple(L) ->
+    nub_simple(L, []).
+
+nub_simple([], Acc) -> lists:reverse(Acc);
+nub_simple([H|T], Acc) ->
+    nub_simple(T, case lists:member(H, Acc) of
+                      true  -> Acc;
+                      false -> [H|Acc]
+                  end).
+
+% O(N^2) super simple
+
+bun([]) -> [];
+bun([H|T]) ->
+    case lists:member(H, T) of
+        true  -> bun(T);
+        false -> [H|bun(T)]
+    end.
