@@ -52,11 +52,9 @@ split(P, [H|T], L, E, G) ->
     split(P, T, L, [H|E], G).
 
 insert_sort([]) -> [];
-insert_sort([_] = L) -> L;
 insert_sort([H|T]) ->
     insert(H, insert_sort(T)).
 
-insert(X, []) -> [X];
 insert(X, [H|T]) when X > H ->
     [H|insert(X, T)];
 insert(X, L) ->
