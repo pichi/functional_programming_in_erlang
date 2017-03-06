@@ -4,6 +4,8 @@
 
 -export([sort/1, qsort/1, insert_sort/1]).
 
+-export([perms/1]).
+
 -export([test/0]).
 
 join([],     T) -> T;
@@ -60,6 +62,10 @@ insert(X, [H|T]) when X > H ->
 insert(X, L) ->
     [X | L].
 
+perms([]) -> [[]];
+perms(L) ->
+    [ [H|T] || H <- L, T <- perms(L -- [H]) ].
+
 test() ->
     "goodbye" = concat(["goo","d","","by","e"]),
     true  = member( 2,[2,0,0,1]),
@@ -67,4 +73,6 @@ test() ->
     [1,2,3,4,5] = sort([4,3,5,1,2]),
     [1,2,3,4,5] = qsort([4,3,5,1,2]),
     [1,2,3,4,5] = insert_sort([4,3,5,1,2]),
+    [[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,1,2],[3,2,1]] =
+        perms([1,2,3]),
     ok.
