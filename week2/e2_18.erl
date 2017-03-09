@@ -65,6 +65,11 @@ insert(X, L) ->
 perms([]) -> [[]];
 perms(L) ->
     [ [H|T] || H <- L, T <- perms(L -- [H]) ].
+% For each member H from list L remove H from L (L -- [H] i.e.
+% lists:delete(H, L) but longer), then generate permutation for this smaller
+% list and for each permutation and H (their cartesian product) make lists by
+% prepending H to the permutations ([H|T]). H and T as head and tail of new
+% permutation.
 
 test() ->
     "goodbye" = concat(["goo","d","","by","e"]),
