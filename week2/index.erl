@@ -49,20 +49,22 @@ lines(Ls) ->
     lines(Ls, #{}, 1).
 
 lines([], I, _) ->
-    [ {K, lists:reverse(V)}
-      || {K, V} <- lists:sort(maps:to_list(I)) ];
+    [ {K, lists:reverse(V)}                         % reverse occurrences, see line/3
+      || {K, V} <- lists:sort(maps:to_list(I)) ];   % sort index alphabetically
 lines([L|Ls], I, N) ->
     lines(Ls, line(words(L), I, N), N+1).
 
 % Add line of words into index
+% List of occurrences is build up in reverse so last entry is head of value
+% in map
 line([], I, _) -> I;
-line([W|L], I, N) ->
-    line(L,
+line([W|Ws], I, N) ->
+    line(Ws,
          case maps:get(W, I, []) of
-             [{_, N}|_] -> I;
-             [{X, Y}|T] when N =:= Y+1 ->
+             [{_, N}|_] -> I;               % next occurrence on same line
+             [{X, Y}|T] when N =:= Y+1 ->   % could extended last entry (previous line)
                  maps:put(W, [{X, N}|T], I);
-             T -> maps:put(W, [{N,N}|T], I)
+             T -> maps:put(W, [{N,N}|T], I) % otherwise new entry
          end,
          N).
 
