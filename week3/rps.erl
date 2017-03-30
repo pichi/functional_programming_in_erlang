@@ -139,7 +139,7 @@ freq([H|T], R, P, S) ->
 markov(Ms) ->
     observe(Ms),
     {R, P, S} = get_markov(Ms),
-    io:format("Expect: ~p~n", [{R, P, S}]),
+%    io:format("Expect: ~p~n", [{R, P, S}]),
     choose({S+?K, R+?K, P+?K}).
 
 ensure_markov_db() ->
