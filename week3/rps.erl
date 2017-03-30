@@ -134,7 +134,7 @@ freq([H|T], R, P, S) ->
 -define(MD_SRV, markov_db).
 -define(MD_FILE, "rps_markov.dat").
 -define(MD_RETRY, 3).
--define(MC_LEN, 3).
+-define(MC_LEN, 2).
 
 markov(Ms) ->
     observe(Ms),
@@ -209,16 +209,16 @@ pos(rock)     -> 0;
 pos(paper)    -> 1;
 pos(scissors) -> 2.
 
-encode({A, _})   -> pos(A).
-%encode({A, B})   -> 3*pos(A) + pos(B).
+%encode({A, _})   -> pos(A).
+encode({A, B})   -> 3*pos(A) + pos(B).
 
 position(Ms) ->
     position(lists:sublist(Ms, ?MC_LEN), 0).
 
 position([], P) -> P;
 position([H|T], P) ->
-    position(T, 3*(P+1) + encode(H)).
-%   position(T, 9*(P+1) + encode(H)).
+%    position(T, 3*(P+1) + encode(H)).
+    position(T, 9*(P+1) + encode(H)).
 
 read_observ(FH, Ms) ->
     case file:pread(FH, 3*position(Ms), 3) of
