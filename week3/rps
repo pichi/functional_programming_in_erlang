@@ -1,0 +1,6 @@
+#!/usr/bin/env escript
+
+main(_) ->
+  [] = os:cmd("erlc rps.erl"),
+  rps:play(),
+  init:stop().
