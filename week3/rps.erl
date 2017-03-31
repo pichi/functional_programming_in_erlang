@@ -152,7 +152,7 @@ observe(Ms) ->
 get_markov(Ms) ->
     Pid = ensure_markov_db(),
     MRef = monitor(process, Pid),
-    Pid ! {get, self(), MRef, Ms},
+    Pid ! {get, self(), MRef, lists:sublist(Ms, ?MC_LEN)},
     receive
         {ok, MRef, Result} -> demonitor(MRef, [flush]), Result;
         {'DOWN', MRef, process, Pid, Info} -> error(Info)
